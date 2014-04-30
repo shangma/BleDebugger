@@ -41,7 +41,7 @@ import com.adatronics.bledebugger.model.BleDeviceLab;
  * 
  *         2014-4-4
  */
-public class BleScan extends Activity implements Observer {
+public class BleScan extends Activity {
 	
 	private static final String TAG = "BleScan";
 	private BluetoothAdapter mBluetoothAdapter;
@@ -202,28 +202,14 @@ public class BleScan extends Activity implements Observer {
 	};
 
 	private void deviceScan() {
-		scanTask = new AsyncTask<String, Integer, Boolean>() {
-			protected Boolean doInBackground(String... something) {
-				try {
-					mBluetoothAdapter.startLeScan(mLeScanCallback);
-					Thread.sleep(1000);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				mBluetoothAdapter.stopLeScan(mLeScanCallback);
-				return true;
-			}
-
-			protected void onPostExecute(Boolean result) {
-
-			}
-		};
-		scanTask.execute();
-	}
-
-	@Override
-	public void update(Observable observable, Object data) {
-		// TODO Auto-generated method stub
+		try {
+			mBluetoothAdapter.startLeScan(mLeScanCallback);
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
+		mBluetoothAdapter.stopLeScan(mLeScanCallback);
 	}
 }
