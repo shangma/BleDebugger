@@ -93,14 +93,6 @@ public class BleScan extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.blescan);
 		
-		if (!getPackageManager().hasSystemFeature(
-				PackageManager.FEATURE_BLUETOOTH_LE)) {
-			Toast.makeText(this, "The device doesn't support BLE",
-					Toast.LENGTH_SHORT).show();
-			finish();
-			return;
-		}
-		
 		scanResutls = (TextView) findViewById(R.id.ble_scan_results);
 
 		BluetoothManager blueManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
