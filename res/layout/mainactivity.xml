@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_root"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -28,54 +28,63 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:orientation="vertical" >
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
         <Button
             android:id="@+id/btn_ble"
             style="@style/ButtonOnMain"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="20dip"
             android:background="@drawable/btn_red"
-            android:text="BLE"
-            android:onClick="onBtnBLE" />
+            android:onClick="onBtnBLE"
+            android:text="BLE" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_bluetooth"
             style="@style/ButtonOnMain"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="20dip"
             android:background="@drawable/btn_yellow"
-            android:text="Classical"
-            android:onClick="onBtnClassic" />
+            android:onClick="onBtnClassic"
+            android:text="Classical" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_discover"
             style="@style/ButtonOnMain"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="20dip"
             android:background="@drawable/btn_green"
-            android:text="Discoverable"
-            android:onClick="onBtnDiscoverable" />
+            android:onClick="onBtnDiscoverable"
+            android:text="Discoverable" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/btn_about"
             style="@style/ButtonOnMain"
-            android:layout_marginBottom="20dip"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            android:layout_marginTop="20dip"
             android:background="@drawable/btn_purple"
-            android:text="About"
-            android:onClick="onBtnAbout" />
+            android:onClick="onBtnAbout"
+            android:text="About" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
