@@ -35,27 +35,24 @@ import com.adatronics.bledebugger.RefreshableView.PullToRefreshListener;
 import com.adatronics.bledebugger.model.BleDevice;
 import com.adatronics.bledebugger.model.BtDeviceLab;
 
-
 /**
  * @author BojunPan@adatronics
  * 
  *         2014-4-4
  */
 public class BleScan extends Activity {
-	
+
 	private static final String TAG = "BleScan";
 	private BluetoothAdapter mBluetoothAdapter;
-	RefreshableView refreshableView;	
-	
+	RefreshableView refreshableView;
+
 	private ArrayList<BleDevice> deviceList;
 	private ListView deviceListView;
 	private DeviceAdapter deviceAdapter;
-	
-	private static final int REQUEST_ENABLE_BT = 3;
+
+	private static final int REQUEST_ENABLE_BT = 0;
 	private TextView scanResutls;
 
-	
-	
 	private class DeviceAdapter extends ArrayAdapter<BleDevice> {
 
 		public DeviceAdapter(ArrayList<BleDevice> deviceList) {
@@ -67,55 +64,49 @@ public class BleScan extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
 			if (convertView == null) {
-				convertView = getLayoutInflater().inflate(com.adatronics.bledebugger.R.layout.list_item_ble_scan, null);
+				convertView = getLayoutInflater().inflate(
+						com.adatronics.bledebugger.R.layout.list_item_ble_scan,
+						null);
 			}
-			
+
 			BleDevice device = getItem(position);
-			
-			TextView nameView = (TextView) convertView.findViewById(R.id.device_name);
+
+			TextView nameView = (TextView) convertView
+					.findViewById(R.id.device_name);
 			nameView.setText(device.getName());
-			
-			TextView addressView = (TextView) convertView.findViewById(R.id.device_address);
+
+			TextView addressView = (TextView) convertView
+					.findViewById(R.id.device_address);
 			addressView.setText(device.getAddress());
-			
-			TextView rssiView = (TextView) convertView.findViewById(R.id.device_rssi);
+
+			TextView rssiView = (TextView) convertView
+					.findViewById(R.id.device_rssi);
 			rssiView.setText("Rssi: " + device.getRssi());
-			
+
 			return convertView;
 		}
-		
+
 	}
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.blescan);
-		
+
 		scanResutls = (TextView) findViewById(R.id.ble_scan_results);
 
 		BluetoothManager blueManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
 		mBluetoothAdapter = blueManager.getAdapter();
-		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, "No Bluetooth device.", Toast.LENGTH_LONG)
-					.show();
-			finish();
-			return;
-		}
-		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableBtIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-		}
 
 		refreshableView = (RefreshableView) findViewById(R.id.refreshable_view);
 
 		deviceListView = (ListView) findViewById(R.id.list_devices);
-		
-		deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBleDeviceList();
+
+		deviceList = BtDeviceLab.getInstance(getApplicationContext())
+				.getBleDeviceList();
 		deviceAdapter = new DeviceAdapter(deviceList);
-		
+
 		deviceListView.setAdapter(deviceAdapter);
 
 		deviceListView.setOnItemClickListener(new OnItemClickListener() {
@@ -123,12 +114,14 @@ public class BleScan extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				BtDeviceLab.getInstance(getApplicationContext()).setCurrentBleDevice(position);
-				Intent intent = new Intent(getApplicationContext(), BleService.class);
+				BtDeviceLab.getInstance(getApplicationContext())
+						.setCurrentBleDevice(position);
+				Intent intent = new Intent(getApplicationContext(),
+						BleService.class);
 				startActivity(intent);
 			}
 		});
-		
+
 		refreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -142,17 +135,17 @@ public class BleScan extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
-            //Bluetooth is disabled
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBtIntent);
-            finish();
-            return;
-        }
-		
-		deviceScan();
 		Log.i(TAG, "onResume");
+
+		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+			// Bluetooth is disabled
+			Intent enableBtIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+			return;
+		}
+
+		deviceScan();
 	}
 
 	@Override
@@ -160,7 +153,7 @@ public class BleScan extends Activity {
 		super.onPause();
 		Log.i(TAG, "onPause");
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
@@ -172,9 +165,9 @@ public class BleScan extends Activity {
 		@Override
 		public void onLeScan(final BluetoothDevice device, int rssi,
 				byte[] scanRecord) {
-			
+
 			BtDeviceLab mLab = BtDeviceLab.getInstance(getApplicationContext());
-			
+
 			if (device.getName() != null) {
 				mLab.addDevice(new BleDevice(device, rssi));
 			}
@@ -189,22 +182,36 @@ public class BleScan extends Activity {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		mBluetoothAdapter.stopLeScan(mLeScanCallback);
-		
+
 		BtDeviceLab mLab = BtDeviceLab.getInstance(getApplicationContext());
 
 		final int i = mLab.getBleSize();
-		
+
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBleDeviceList();
+				deviceList = BtDeviceLab.getInstance(getApplicationContext())
+						.getBleDeviceList();
 				deviceAdapter = new DeviceAdapter(deviceList);
 				scanResutls.setText("Found " + i + " Devices");
 				deviceListView.setAdapter(deviceAdapter);
 			}
 		});
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		
+		Log.i(TAG, "the requestCode is: " + requestCode);
+		Log.i(TAG, "the resultCode is: " + resultCode);
+		if (resultCode != Activity.RESULT_OK) {
+			finish();
+			return;
+		}
+	}
+
 }

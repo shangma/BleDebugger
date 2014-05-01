@@ -22,11 +22,8 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";
 	
-	private static final int REQUEST_DISCOVERABLE = 0;
-	private static final int REQUEST_BLE = 1;
-	private static final int REQUEST_CLASSIC = 2;
-	
-	private static final int DISCOVERABLE_DURATION = 3;
+	private static final int REQUEST_DISCOVERABLE = 0;	
+	private static final int DISCOVERABLE_DURATION = 300;
 	
 	
 	View btnBle;
@@ -91,7 +88,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onBtnAbout(View view) {
-		
+		Intent intent = new Intent(this, About.class);
+		startActivity(intent);
 	}
 
 	@Override

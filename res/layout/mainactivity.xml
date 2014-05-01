@@ -20,7 +20,7 @@
             android:shadowDx="5.0"
             android:shadowDy="5.0"
             android:shadowRadius="5.0"
-            android:text="Bluetooth Tools"
+            android:text="BLE Debugger"
             android:textColor="#A1CAF1"
             android:textSize="35dip" />
     </LinearLayout>
@@ -51,7 +51,7 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:layout_marginTop="20dip"
-            android:background="@drawable/btn_green"
+            android:background="@drawable/btn_yellow"
             android:text="Classical"
             android:onClick="onBtnClassic" />
 
@@ -62,7 +62,7 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:layout_marginTop="20dip"
-            android:background="@drawable/btn_purple"
+            android:background="@drawable/btn_green"
             android:text="Discoverable"
             android:onClick="onBtnDiscoverable" />
 
@@ -73,7 +73,7 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:layout_marginTop="20dip"
-            android:background="@drawable/btn_yellow"
+            android:background="@drawable/btn_purple"
             android:text="About"
             android:onClick="onBtnAbout" />
     </LinearLayout>

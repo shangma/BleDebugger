@@ -78,14 +78,6 @@ public class BtcScan extends ListActivity {
 		setContentView(R.layout.btcscan);
 		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if (mBluetoothAdapter != null) {
-			if (!mBluetoothAdapter.isEnabled()) {
-				Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(i, REQUEST_ENABLE_BT);
-			}
-		} else {
-			Toast.makeText(getApplicationContext(), "No Bluetooth Available", Toast.LENGTH_LONG).show();
-		}
 		
 		mScanResults = (TextView) findViewById(R.id.btcScanResults);
 		mRefreshableView = (RefreshableView) findViewById(R.id.btcRefreshableView);
@@ -173,7 +165,6 @@ public class BtcScan extends ListActivity {
 		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
 			Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(i, REQUEST_ENABLE_BT);
-			finish();
 			return;
 		}
 	}
@@ -190,6 +181,17 @@ public class BtcScan extends ListActivity {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		Log.i(TAG, "the requestCode is: " + requestCode);
+		Log.i(TAG, "the resultCode is: " + resultCode);
+		if (resultCode != Activity.RESULT_OK) {
+			finish();
+			return;
 		}
 	}
 }
