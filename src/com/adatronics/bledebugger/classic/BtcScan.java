@@ -166,6 +166,8 @@ public class BtcScan extends ListActivity {
 			Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(i, REQUEST_ENABLE_BT);
 			return;
+		} else {
+			scanDevices();
 		}
 	}
 

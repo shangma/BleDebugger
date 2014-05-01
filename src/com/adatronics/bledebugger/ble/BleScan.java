@@ -44,7 +44,7 @@ public class BleScan extends Activity {
 
 	private static final String TAG = "BleScan";
 	private BluetoothAdapter mBluetoothAdapter;
-	RefreshableView refreshableView;
+	private RefreshableView refreshableView;
 
 	private ArrayList<BleDevice> deviceList;
 	private ListView deviceListView;
