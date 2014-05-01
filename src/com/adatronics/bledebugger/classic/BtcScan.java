@@ -42,7 +42,7 @@ public class BtcScan extends ListActivity {
 	
 	private ArrayList<BtcDevice> deviceList;
 	private DeviceAdapter deviceAdapter;
-	
+		
 	private class DeviceAdapter extends ArrayAdapter<BtcDevice> {
 
 		public DeviceAdapter(ArrayList<BtcDevice> deviceList) {
@@ -98,19 +98,13 @@ public class BtcScan extends ListActivity {
 					public void run() {
 						scanDevices();
 					}
-				});
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				mRefreshableView.finishRefreshing();
+				});		
 			}
 		}, 0);
 	}
 	
-	private void scanDevices(){
+	private void scanDevices() {
+		
 		if (scanDevicesReceiver == null) {
 			scanDevicesReceiver = new BroadcastReceiver() {
 
@@ -133,11 +127,8 @@ public class BtcScan extends ListActivity {
 				@Override
 				public void onReceive(Context context, Intent intent) {
 					// TODO Auto-generated method stub
-					getListView().setEnabled(true);
+					getListView().setEnabled(true);					
 					
-					// show how many devices have been found
-					
-					Log.i(TAG, "Found Btc Device: " + BtDeviceLab.getInstance(getApplicationContext()).getBtcSize());
 					unregisterReceiver(scanFinishedReceiver);
 										
 					BtDeviceLab mLab = BtDeviceLab.getInstance(getApplicationContext());
@@ -148,6 +139,9 @@ public class BtcScan extends ListActivity {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
+							
+							mRefreshableView.finishRefreshing();
+							
 							deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBtcDeviceList();
 							deviceAdapter = new DeviceAdapter(deviceList);
 							mScanResults.setText("Found " + i + " Devices");
@@ -167,7 +161,7 @@ public class BtcScan extends ListActivity {
 
 		getListView().setEnabled(false);
 		
-		mScanResults.setText("Scaning...");
+		mScanResults.setText("Scaning ...");
 		mBluetoothAdapter.startDiscovery();
 	}
 
@@ -175,13 +169,27 @@ public class BtcScan extends ListActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.i(TAG, "onResume");
+
+		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+			Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(i, REQUEST_ENABLE_BT);
+			finish();
+			return;
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		Log.i(TAG, "onPause");
+		mBluetoothAdapter.cancelDiscovery();
+		if (scanDevicesReceiver != null) {
+			try {
+				unregisterReceiver(scanDevicesReceiver);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
 	}
 }

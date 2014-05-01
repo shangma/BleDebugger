@@ -45,20 +45,15 @@ public class BleScan extends Activity {
 	
 	private static final String TAG = "BleScan";
 	private BluetoothAdapter mBluetoothAdapter;
-	RefreshableView refreshableView;
-	
-	private boolean mScanning;
-	
-	private Handler mHandler;
+	RefreshableView refreshableView;	
 	
 	private ArrayList<BleDevice> deviceList;
 	private ListView deviceListView;
 	private DeviceAdapter deviceAdapter;
 	
 	private static final int REQUEST_ENABLE_BT = 3;
-	private TextView scan_resutls;
+	private TextView scanResutls;
 
-	private AsyncTask<String, Integer, Boolean> scanTask;
 	
 	
 	private class DeviceAdapter extends ArrayAdapter<BleDevice> {
@@ -106,7 +101,7 @@ public class BleScan extends Activity {
 			return;
 		}
 		
-		scan_resutls = (TextView) findViewById(R.id.ble_scan_results);
+		scanResutls = (TextView) findViewById(R.id.ble_scan_results);
 
 		BluetoothManager blueManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
 		mBluetoothAdapter = blueManager.getAdapter();
@@ -155,6 +150,15 @@ public class BleScan extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            //Bluetooth is disabled
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(enableBtIntent);
+            finish();
+            return;
+        }
+		
 		deviceScan();
 		Log.i(TAG, "onResume");
 	}
@@ -162,9 +166,6 @@ public class BleScan extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (scanTask != null) {
-			scanTask.cancel(true);
-		}
 		Log.i(TAG, "onPause");
 	}
 	
@@ -209,7 +210,7 @@ public class BleScan extends Activity {
 				// TODO Auto-generated method stub
 				deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBleDeviceList();
 				deviceAdapter = new DeviceAdapter(deviceList);
-				scan_resutls.setText("Found " + i + " Devices");
+				scanResutls.setText("Found " + i + " Devices");
 				deviceListView.setAdapter(deviceAdapter);
 			}
 		});
