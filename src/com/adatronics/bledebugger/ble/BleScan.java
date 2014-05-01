@@ -196,7 +196,7 @@ public class BleScan extends Activity {
 				deviceList = BtDeviceLab.getInstance(getApplicationContext())
 						.getBleDeviceList();
 				deviceAdapter = new DeviceAdapter(deviceList);
-				scanResutls.setText("Found " + i + " Devices");
+				scanResutls.setText("Find " + i + " Devices");
 				deviceListView.setAdapter(deviceAdapter);
 			}
 		});

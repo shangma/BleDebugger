@@ -36,6 +36,15 @@ public class About extends Activity {
 			Toast.makeText(this,"No Internet Connection",Toast.LENGTH_LONG).show();
 			finish();
 		}
+		
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				adaWebView.reload();
+			}
+		}, 3000);
 	}
 
 	private class MyWebViewClient extends WebViewClient {

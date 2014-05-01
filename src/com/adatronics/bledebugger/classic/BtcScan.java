@@ -136,7 +136,7 @@ public class BtcScan extends ListActivity {
 							
 							deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBtcDeviceList();
 							deviceAdapter = new DeviceAdapter(deviceList);
-							mScanResults.setText("Found " + i + " Devices");
+							mScanResults.setText("Find " + i + " Devices");
 							setListAdapter(deviceAdapter);
 						}
 					});
