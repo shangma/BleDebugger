@@ -2,6 +2,7 @@ package com.adatronics.bledebugger;
 
 import com.adatronics.bledebugger.R;
 import com.adatronics.bledebugger.ble.BleScan;
+import com.adatronics.bledebugger.classic.BtcScan;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -56,7 +57,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void onBtnClassic(View view) {
-		
+		Intent intent = new Intent(this, BtcScan.class);
+		startActivity(intent);
 	}
 	
 	public void onBtnTest(View view) {

@@ -213,3 +213,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.properties
+project.properties
+project.properties
+gen/com/adatronics/bledebugger/BuildConfig.java
+gen/com/adatronics/bledebugger/R.java
+project.properties

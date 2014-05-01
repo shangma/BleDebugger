@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.adatronics.bledebugger.R;
 import com.adatronics.bledebugger.model.BleDevice;
-import com.adatronics.bledebugger.model.BleDeviceLab;
+import com.adatronics.bledebugger.model.BtDeviceLab;
 import com.adatronics.bledebugger.model.BleDeviceState;
 import com.adatronics.bledebugger.model.BleGlobal;
 
@@ -81,7 +81,7 @@ public class BleService extends ListActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.bleservice);
 
-		mConnectedDevice = BleDeviceLab.getInstance(getApplicationContext()).getCurrentDevice();
+		mConnectedDevice = BtDeviceLab.getInstance(getApplicationContext()).getCurrentBleDevice();
 		if (mConnectedDevice ==  null) {
 			Log.i(TAG, "the device is null");
 		}

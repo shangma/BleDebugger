@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.adatronics.bledebugger.R;
 import com.adatronics.bledebugger.model.BleDevice;
-import com.adatronics.bledebugger.model.BleDeviceLab;
+import com.adatronics.bledebugger.model.BtDeviceLab;
 import com.adatronics.bledebugger.model.BleDeviceState;
 import com.adatronics.bledebugger.model.BleGlobal;
 
@@ -70,7 +70,7 @@ public class BleData extends Activity implements Observer {
 		ASCII = (EditText) findViewById(R.id.ASCII);
 		mWriteButton = (Button) findViewById(R.id.write);
 
-		mConnectedDevice = BleDeviceLab.getInstance(getApplicationContext()).getCurrentDevice();
+		mConnectedDevice = BtDeviceLab.getInstance(getApplicationContext()).getCurrentBleDevice();
 		mConnectedDevice.addObserver(this);
 		mBluetoothGatt = mConnectedDevice.getBluetoothGatt();
 		mService = mConnectedDevice.getCurrentService();

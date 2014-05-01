@@ -33,7 +33,7 @@ import com.adatronics.bledebugger.R.id;
 import com.adatronics.bledebugger.R.layout;
 import com.adatronics.bledebugger.RefreshableView.PullToRefreshListener;
 import com.adatronics.bledebugger.model.BleDevice;
-import com.adatronics.bledebugger.model.BleDeviceLab;
+import com.adatronics.bledebugger.model.BtDeviceLab;
 
 
 /**
@@ -72,7 +72,7 @@ public class BleScan extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
 			if (convertView == null) {
-				convertView = getLayoutInflater().inflate(com.adatronics.bledebugger.R.layout.list_item_scan, null);
+				convertView = getLayoutInflater().inflate(com.adatronics.bledebugger.R.layout.list_item_ble_scan, null);
 			}
 			
 			BleDevice device = getItem(position);
@@ -126,7 +126,7 @@ public class BleScan extends Activity {
 
 		deviceListView = (ListView) findViewById(R.id.list_devices);
 		
-		deviceList = BleDeviceLab.getInstance(getApplicationContext()).getDeviceList();
+		deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBleDeviceList();
 		deviceAdapter = new DeviceAdapter(deviceList);
 		
 		deviceListView.setAdapter(deviceAdapter);
@@ -136,7 +136,7 @@ public class BleScan extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				BleDeviceLab.getInstance(getApplicationContext()).setCurrentDevice(position);
+				BtDeviceLab.getInstance(getApplicationContext()).setCurrentBleDevice(position);
 				Intent intent = new Intent(getApplicationContext(), BleService.class);
 				startActivity(intent);
 			}
@@ -180,24 +180,11 @@ public class BleScan extends Activity {
 		public void onLeScan(final BluetoothDevice device, int rssi,
 				byte[] scanRecord) {
 			
-			BleDeviceLab mLab = BleDeviceLab.getInstance(getApplicationContext());
+			BtDeviceLab mLab = BtDeviceLab.getInstance(getApplicationContext());
 			
 			if (device.getName() != null) {
 				mLab.addDevice(new BleDevice(device, rssi));
 			}
-						
-			final int i = mLab.getSize();
-			
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					deviceList = BleDeviceLab.getInstance(getApplicationContext()).getDeviceList();
-					deviceAdapter = new DeviceAdapter(deviceList);
-					scan_resutls.setText("Found " + i + " Devices");
-					deviceListView.setAdapter(deviceAdapter);
-				}
-			});
 		}
 	};
 
@@ -211,5 +198,20 @@ public class BleScan extends Activity {
 		}
 		
 		mBluetoothAdapter.stopLeScan(mLeScanCallback);
+		
+		BtDeviceLab mLab = BtDeviceLab.getInstance(getApplicationContext());
+
+		final int i = mLab.getBleSize();
+		
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				deviceList = BtDeviceLab.getInstance(getApplicationContext()).getBleDeviceList();
+				deviceAdapter = new DeviceAdapter(deviceList);
+				scan_resutls.setText("Found " + i + " Devices");
+				deviceListView.setAdapter(deviceAdapter);
+			}
+		});
 	}
 }

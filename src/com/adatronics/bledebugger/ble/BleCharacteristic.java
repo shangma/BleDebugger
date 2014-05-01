@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import com.adatronics.bledebugger.R;
 import com.adatronics.bledebugger.model.BleDevice;
-import com.adatronics.bledebugger.model.BleDeviceLab;
+import com.adatronics.bledebugger.model.BtDeviceLab;
 import com.adatronics.bledebugger.model.BleDeviceState;
 import com.adatronics.bledebugger.model.BleGlobal;
 
@@ -101,7 +101,7 @@ public class BleCharacteristic extends ListActivity {
 		mServiceName = (TextView) findViewById(R.id.serviceName);
 		mServiceUUID = (TextView) findViewById(R.id.serviceUUID);
 		
-		mConnectedDevice = BleDeviceLab.getInstance(getApplicationContext()).getCurrentDevice();
+		mConnectedDevice = BtDeviceLab.getInstance(getApplicationContext()).getCurrentBleDevice();
 		mConnectedDevice.analyzeService();
 		
 		mService = mConnectedDevice.getCurrentService();
